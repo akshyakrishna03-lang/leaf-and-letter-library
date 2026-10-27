@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Leaf and Letter - Library Management</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <aside class="sidebar">
+    <a href="#home" class="logo">
+      <span class="logo-mark">L</span>
+      <span>Leaf and Letter
+        <small>LIBRARY MANAGEMENT</small>
+      </span>
+    </a>
+
+    <p class="side-label">LIBRARY MENU</p>
+    <a href="#home" class="nav-item selected">Overview</a>
+    <a href="#collection" class="nav-item">Book Collection</a>
+    <a href="#collection" class="nav-item">Issue and Return</a>
+
+    <div class="side-note">
+      <h3>A Place for Every Book</h3>
+      <p>Manage book records and help readers find the books they need.</p>
+      <a href="#collection">View Collection</a>
+    </div>
+
+    <div class="admin">
+      <div class="admin-avatar">KU</div>
+      <div>
+        <strong>K. Uma Maheshwari</strong>
+        <small>Library Administrator</small>
+      </div>
+    </div>
+  </aside>
+
+  <main class="page" id="home">
+    <header class="topbar">
+      <div>Library / Overview</div>
+      <div class="top-right">Collection Status: Active</div>
+    </header>
+
+    <section class="hero">
+      <div class="hero-copy">
+        <p class="kicker">WELCOME TO YOUR LIBRARY</p>
+        <h1>Find Your Next<br><em>Great Read</em></h1>
+        <p>Manage your books, check availability and keep every record organised in one place.</p>
+        <a class="hero-link" href="#collection">Explore Collection</a>
+      </div>
+
+      <div class="hero-art">
+        <div class="sun"></div>
+        <div class="book-stack">
+          <div class="art-book art-one">THE ART OF<br>KNOWING</div>
+          <div class="art-book art-two">LITTLE<br>WONDERS</div>
+          <div class="art-book art-three">BEYOND<br>THE PAGE</div>
+        </div>
+        <span class="art-caption">YOUR NEXT BOOK IS WAITING</span>
+      </div>
+    </section>
+
+    <section class="metrics">
+      <article class="metric">
+        <p>Total Titles</p>
+        <strong id="totalTitles">0</strong>
+        <small>Books in the catalogue</small>
+      </article>
+      <article class="metric">
+        <p>Total Copies</p>
+        <strong id="totalCopies">0</strong>
+        <small>All copies in the library</small>
+      </article>
+      <article class="metric">
+        <p>Available Copies</p>
+        <strong id="availableCopies">0</strong>
+        <small>Ready to be issued</small>
+      </article>
+      <article class="metric">
+        <p>Issued Copies</p>
+        <strong id="issuedCopies">0</strong>
+        <small>Currently with readers</small>
+      </article>
+    </section>
+
+    <section class="collection" id="collection">
+      <div class="collection-heading">
+        <div>
+          <p class="kicker">BOOK RECORDS</p>
+          <h2>Book Collection</h2>
+          <p class="description">Search, filter and manage your library books.</p>
+        </div>
+        <button id="addBookBtn" class="add-btn">Add a Book</button>
+      </div>
+
+      <div class="tools">
+        <label class="search">
+          <input id="searchInput" type="search"
+            placeholder="Search by title, author or ISBN..."
+            aria-label="Search books">
+        </label>
+
+        <select id="categoryFilter" aria-label="Filter by category">
+          <option value="">All Categories</option>
+        </select>
+
+        <select id="availabilityFilter" aria-label="Filter by availability">
+          <option value="">All Statuses</option>
+          <option value="available">Available</option>
+          <option value="issued">Fully Issued</option>
+          <option value="out">Out of Stock</option>
+        </select>
+
+        <button id="resetFilters" class="reset-btn">Reset</button>
+      </div>
+
+      <div class="results-bar">
+        <span id="resultsLabel">All Books</span>
+        <span id="resultsCount">0 titles</span>
+      </div>
+
+      <div class="book-grid" id="bookGrid"></div>
+
+      <div class="empty-state" id="emptyState" hidden>
+        <h3>No Books Found</h3>
+        <p>Try another search or add a new book.</p>
+        <button id="emptyAddBtn" class="add-btn">Add a Book</button>
+      </div>
+    </section>
+
+    <footer>
+      <span>LEAF AND LETTER - LIBRARY MANAGEMENT</span>
+      <span>Book Records and Catalogue</span>
+    </footer>
+  </main>
+
+  <div class="modal-layer" id="bookModal" hidden>
+    <section class="modal" role="dialog" aria-modal="true"
+      aria-labelledby="modalTitle">
+
+      <div class="modal-top">
+        <div>
+          <p class="kicker">BOOK DETAILS</p>
+          <h2 id="modalTitle">Add a Book</h2>
+          <p>Enter the details below.</p>
+        </div>
+        <button type="button" id="closeModal" class="close-btn"
+          aria-label="Close">Close</button>
+      </div>
+
+      <form id="bookForm">
+        <input id="bookId" type="hidden">
+
+        <label>Book Title
+          <input id="bookTitle" maxlength="120" required
+            placeholder="Enter book title">
+        </label>
+
+        <label>Author
+          <input id="bookAuthor" maxlength="100" required
+            placeholder="Enter author name">
+        </label>
+
+        <div class="form-row">
+          <label>ISBN
+            <input id="bookIsbn" maxlength="20" required
+              placeholder="Enter ISBN">
+          </label>
+
+          <label>Category
+            <select id="bookCategory" required>
+              <option value="">Select Category</option>
+              <option>Fiction</option>
+              <option>Science</option>
+              <option>Technology</option>
+              <option>Education</option>
+              <option>History</option>
+              <option>Biography</option>
+              <option>Self-Help</option>
+              <option>Literature</option>
+              <option>Business</option>
+              <option>Reference</option>
+            </select>
+          </label>
+        </div>
+
+        <label>Total Copies
+          <input id="bookQuantity" type="number" min="1"
+            max="10000" step="1" value="1" required>
+          <small>The total cannot be less than the number of issued copies.</small>
+        </label>
+
+        <p id="formError" class="form-error" role="alert"></p>
+
+        <div class="form-actions">
+          <button type="button" class="cancel-btn" id="cancelModal">Cancel</button>
+          <button type="submit" class="add-btn" id="saveBookBtn">Save Book</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
